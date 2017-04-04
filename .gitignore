@@ -8,6 +8,14 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
+#images
+*.jpg
+*.png
+*.jpeg
+*.pdf
+*.svg
+*.bmp
+
 # Windows Installer files
 *.cab
 *.msi

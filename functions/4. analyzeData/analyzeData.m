@@ -1,4 +1,4 @@
-function [bead] = analyzeData(bead, nPlat, plat, configVariable)
+function [bead, forcesExponentialFit] = analyzeData(bead, nPlat, plat, zmags, configVariable)
 %%% STEP 4: ANALYZE THE BEAD DATA FOR EACH PLATEAU
 
 %%% Some variables ----------------------------------------------
@@ -48,4 +48,6 @@ for i=1;
 
         display(['Finished working on bead # ' num2str(i) ', plateau number ' num2str(k)])
     end
+    
+    [forcesExponentialFit] = fitExponentialToForces(bead, zmags, configVariable);
 end

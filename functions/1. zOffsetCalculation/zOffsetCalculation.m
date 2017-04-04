@@ -19,8 +19,7 @@ data = load(tracesFile);
 
 for i=1 %there is only one bead in this example
     bead(i).time = 1:length(data(:,1));
-    bead(i).y = data(:,1);
-    bead(i).z = data(:,2);
+    bead(i).z = data(:,3);
 end
 
 zOffsets = [];
@@ -55,6 +54,6 @@ end
 
 %%% Save the data
 display('Save offsets to file')
-foo = [(1)' zOffsets'];
+foo = [zOffsets'];
 save(outputFile, 'foo', '-ascii')
 end

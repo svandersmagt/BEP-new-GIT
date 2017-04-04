@@ -17,4 +17,4 @@ display('Finding plateaus')
 
 %%% Step four: analyze using different algorithms
 display('Analyzing bead data')
-[bead] = analyzeData(bead, nPlat, plat, configVariable);
+[bead, forcesExponentialFit] = analyzeData(bead, nPlat, plat, zmags, configVariable);

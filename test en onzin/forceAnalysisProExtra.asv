@@ -46,11 +46,11 @@ if 1
     %%%--- Read in the previously determined z-offsets from file
     zoffsets = 0; %nm
     loaddata = load('matlab.mat');
-    names = fieldnames(loaddata);
+    names = loa
     
     
     %%%--- Read in data ---
-    dataBead = double(loaddata.(names{1}));
+    dataBead = double(loaddata(1));
     data = dataBead(:,1:3);
     zmag = loaddata.RdRp4(:,4);
     
