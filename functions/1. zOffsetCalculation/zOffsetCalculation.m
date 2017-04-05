@@ -1,59 +1,63 @@
 function [] = zOffsetCalculation(configVariable)
 %%% STEP 1: FIND OFFSETS IN Z-DIRECTION PER BEAD  
 %%% ---------------------------------------------------------------
-%%% skip this section if your data has offsets already subtracted and
-%%% skip this section if the offsets belonging to your data are already
-%%% stored in a file
-%%% ---------------------------------------------------------------
+%%% This section will be skipped if it is indicated in the configuration
+%%% file that z-offsets were already saved to a file or already subtracted
+%%% from the z-trace.
 
-plotThings = configVariable.plotThings;
+%%% Input: (configVariable)
 
-%%% Write here some descriptive text about your data
-%%% ---
-%%% Example data set on FX measurements; M270 beads, 21 kbp DNA
-tracesFile = configVariable.zOffsetDataFile;
-outputFile = configVariable.zOffsetOutputFile;
+%%% Output: []
+%%% Saves z-offset data per bead to a file.
+%%
+    plotThings = configVariable.plotThings;
 
-%%% Read in and parse bead data
-data = load(tracesFile);
+    %%% Write here some descriptive text about your data
+    %%% ---
+    %%% Example data set on FX measurements; M270 beads, 21 kbp DNA
+    tracesFile = configVariable.zOffsetDataFile;
+    outputFile = configVariable.zOffsetOutputFile;
 
-for i=1 %there is only one bead in this example
-    bead(i).time = 1:length(data(:,1));
-    bead(i).z = data(:,3);
-end
+    %%% Read in and parse bead data
+    data = load(tracesFile);
 
-zOffsets = [];
-nSmooth=100;
-
-for i=1 %there is only one bead in this example
-
-    %%% Smooth and find minimum
-    smoothZ = smooth(bead(i).z, nSmooth, 'moving');
-    [minZ, ind] = min(smoothZ);
-    zOffsets = [zOffsets minZ];
-
-    if plotThings;
-        figure(1); clf; hold on; box on;
-        plot(bead(i).time, bead(i).z, 'k-', 'linewidth', 1);
-        plot(bead(i).time, smoothZ, 'r-', 'linewidth', 2);
-        plot(bead(i).time(ind), smoothZ(ind), 'bx', 'linewidth', 2, 'markersize', 20);
-        xlabel('Time (s)'); ylabel('z (um)');
-        title(['Z-offset finding for bead # ' num2str(i)]);
-        legend('z','Smoothed z','Lowest point');
+    for i=1 %there is only one bead in this example
+        bead(i).time = 1:length(data(:,1));
+        bead(i).z = data(:,3);
     end
-end
 
-%%% Plot the offsets
-if plotThings;
-    figure(2); clf; hold on; box on;
-    plot(1, zOffsets, 'bo', 'linewidth', 2, 'markersize', 5);
-    title('Z-offset per bead');
-    xlabel('Bead #'); ylabel('z-offset (um)');
-    legend('Offset');
-end
+    zOffsets = [];
+    nSmooth=100;
 
-%%% Save the data
-display('Save offsets to file')
-foo = [zOffsets'];
-save(outputFile, 'foo', '-ascii')
+    for i=1 %there is only one bead in this example
+
+        %%% Smooth and find minimum
+        smoothZ = smooth(bead(i).z, nSmooth, 'moving');
+        [minZ, ind] = min(smoothZ);
+        zOffsets = [zOffsets minZ];
+
+        if plotThings;
+            figure(1); clf; hold on; box on;
+            plot(bead(i).time, bead(i).z, 'k-', 'linewidth', 1);
+            plot(bead(i).time, smoothZ, 'r-', 'linewidth', 2);
+            plot(bead(i).time(ind), smoothZ(ind), 'bx', 'linewidth', 2, 'markersize', 20);
+            xlabel('Time (s)'); ylabel('z (um)');
+            title(['Z-offset finding for bead # ' num2str(i)]);
+            legend('z','Smoothed z','Lowest point');
+        end
+    end
+
+    %%% Plot the offsets
+    if plotThings;
+        figure(2); clf; hold on; box on;
+        plot(1, zOffsets, 'bo', 'linewidth', 2, 'markersize', 5);
+        title('Z-offset per bead');
+        xlabel('Bead #'); ylabel('z-offset (um)');
+        legend('Offset');
+    end
+
+    %%% Save the data
+    display('Save offsets to file')
+    foo = [zOffsets'];
+    save(outputFile, 'foo', '-ascii')
 end

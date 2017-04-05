@@ -1,12 +1,15 @@
 
-function fc = calcFcorner(forces,ext,R,eta)
-% Runs a simple calculation to estimate the corner frequency in MT
-% input
-% forces in pN
-% mean_z, extension in nm
-% R, bead radius in nm
-% eta, water viscosity in pN s/nm^2
+function cornerFreq = calcFcorner(force,extensionDNA,beadRadius,viscosity)
+%%% Runs a simple calculation to estimate the corner frequency in MT
 
-fc = 1/(2*pi).* forces ./ ext ./(6*pi*eta*R);
+%%% Input: (force, extensionDNA, beadRadius, viscosity)
+%%% - magnet force in pN
+%%% - extension of DNA in nm
+%%% - estimate of the bead radius in nm
+%%% - viscosity in pN s/nm^2
 
+%%% Output: cornerFreq
+%%% - corner frequency in Hz
+%%
+    cornerFreq = 1/(2*pi).* force ./ extensionDNA ./(6*pi*viscosity*beadRadius);
 end

@@ -1,41 +1,50 @@
-function [ext, realTimeForceX, realTimeForceY, ZhongboYFit, ZhongboYForce, DaldropXFit, DaldropXForce, DaldropXRadius, DaldropYFit, DaldropYForce, DaldropYRadius]...
-    = analyzeTrace(x, y, z, fs, R, kT, eta, nBlock, plot)
+function [extensionDNA, realTimeForceLong, realTimeForceShort, ZhongboFitShort,...
+    ZhongboForceShort, DaldropFitLong, DaldropForceLong, DaldropRadiusLong,...
+    DaldropFitShort, DaldropForceShort, DaldropRadiusShort]...
+    = analyzeTrace(long, short, z, sampleFreq, beadRadius, kT, viscosity, nBlock, plotThings)
 %%% Function to analyze magnetic tweezers time traces in three different ways:
-%%% -Zhongbo's method of fitting the spectrum to the analytical solution in the y-direction.
-%%% -Daldrop's method of fitting the spectrum to the analytical solution in the y-direction.
-%%% -Daldrop's method of fitting the spectrum to the analytical solution in the x-direction, taking bead rotations into account.
+%%% -Zhongbo's method of fitting the spectrum to the analytical solution in the short pendulum direction.
+%%% -Daldrop's method of fitting the spectrum to the analytical solution in the short pendulum direction.
+%%% -Daldrop's method of fitting the spectrum to the analytical solution in the long pendulum direction, taking bead rotations into account.
 
-%%% Input: (x, y, z, fs, R, kT, eta, nBlock)
-%%% - trace x in nm
-%%% - trace y in nm
+%%% Input: (long, short, z, sampleFreq, beadRadius, kT, viscosity, nBlock, plotThings)
+%%% - trace in long pendulum direction in nm
+%%% - trace in short pendulum direction in nm
 %%% - trace z in nm
-%%% - fs in Hz, sampling frequency
-%%% - R in nm, initial guess for the bead Radius
+%%% - sampling frequency in Hz
+%%% - initial guess for the bead Radius in nm
 %%% - kT in pN nm
-%%% - eta, viscosity in pN s/nm^2
-%%% - nBlock, number of blocks used for blocked powerspectrum
+%%% - viscosity in pN s/nm^2
+%%% - number of blocks used for blocked powerspectrum
+%%% - show plots
 
-%%% Output: [ext, FxReal, FyReal, ZhongboYFit, ZhongboYForce, DaldropXFit, DaldropXForce, DaldropXRadius, DaldropYFit, DaldropYForce, DaldropYRadius]
+%%% Output: [ext, realTimeForceLong, realTimeForceShort, ZhongboFitShort,...
+%%% ZhongboForceShort, DaldropFitLong, DaldropForceLong, DaldropRadiusLong,...
+%%% DaldropFitShort, DaldropForceShort, DaldropRadiusShort]
 %%% - results op analysis in real time, using Zhongbo's method, and using Daldrop's methods
 %%
+    %%% Analyze the real time fluctuations
+    meanLong = mean(long);
+    meanShort = mean(short);
+    meanZ = mean(z);
+    stdLong  = std(long);
+    stdShort  = std(short);
 
-%%% Analyze the real time fluctuations
-meanX = mean(x);
-meanY = mean(y);
-meanZ = mean(z);
-stdX  = std(x);
-stdY  = std(y);
+    realTimeForceLong = kT*meanZ./stdLong^2;
+    realTimeForceShort = kT*meanZ./stdShort^2;
+    extensionDNA = mean(sqrt((long-meanLong).^2 + (short-meanShort).^2 + z.^2));
 
-realTimeForceX = kT*meanZ./stdX^2;
-realTimeForceY = kT*meanZ./stdY^2;
-ext = mean(sqrt((x-meanX).^2 + (y-meanY).^2 + z.^2));
-
-%%% The three methods are implemented in their own functions:
-fprintf('Zhongbo Fit \n');
-[ZhongboYFit, ZhongboYForce] = analyzeZhongboY(fs,ext,y-meanY,kT,R,eta,nBlock,plot);
-fprintf('Daldrop X Fit \n');
-[DaldropXFit, DaldropXForce, DaldropXRadius] = analyzeDaldropX(fs,ext,x-meanX,y-meanY,R,kT,eta,nBlock,plot);
-fprintf('Daldrop Y Fit \n');
-[DaldropYFit, DaldropYForce, DaldropYRadius] = analyzeDaldropY(fs,ext,y-meanY,R,kT,eta,nBlock,plot);
+    %%% The three methods are implemented in their own functions:
+    fprintf('Zhongbo Short Pendulum Fit \n');
+    [ZhongboFitShort, ZhongboForceShort] = analyzeZhongboShort(sampleFreq,extensionDNA,...
+        short-meanShort,kT,beadRadius,viscosity,nBlock,plotThings);
+    
+    fprintf('Daldrop Long Pendulum Fit \n');
+    [DaldropFitLong, DaldropForceLong, DaldropRadiusLong] = analyzeDaldropLong(sampleFreq,...
+        extensionDNA,long-meanLong,short-meanShort,beadRadius,kT,viscosity,nBlock,plotThings);
+    
+    fprintf('Daldrop Short Pendulum Fit \n');
+    [DaldropFitShort, DaldropForceShort, DaldropRadiusShort] = analyzeDaldropShort(...
+        sampleFreq,extensionDNA,short-meanShort,beadRadius,kT,viscosity,nBlock,plotThings);
 
 end

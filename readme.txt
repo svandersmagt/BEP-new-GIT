@@ -6,7 +6,7 @@ First setup the program by opening config.m. Here you insert values for the the 
 Insert the path to the trace containing a measurement of the z-direction with the magnet switched of or the magnet height sufficiently high or the magnetic field to be unnoticeable. This file should consist of three columns (X, Y, Z) in micrometers. X and Y values will not be used.
 
 -zOffsetOutputFile:
-Insert the path to save the file containing z-offset data to. If z-offsets were already saved insert here the path to the file containing the already saved files. This consists of one column containing the offsets in micrmeters.
+Insert the path to save the file containing z-offset data to. If z-offsets were already saved insert here the path to the file containing the already saved files. This consists of one column containing the offsets in micrometers.
 
 -tracesFile:
 Insert the path to the file containing the position trace of the bead. This file can include measurments at different magnet heights, as long as these heights are correctly represented in the magnetMotorFile (see below).
