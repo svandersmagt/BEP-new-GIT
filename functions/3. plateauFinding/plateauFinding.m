@@ -80,7 +80,7 @@ function [plat, zmags, nPlat] = plateauFinding(zmag, configVariable)
     end
 
     if plotThings;
-        figure(3);clf; hold on; box on;
+        figure(2);clf; hold on; box on;
         platind = find(abs(diffZmag) < threshold);
         faketime = 1:length(zmagSmooth);
         plot(faketime , zmagSmooth, 'b-')

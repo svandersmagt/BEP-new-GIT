@@ -1,4 +1,4 @@
-function PSDmodel = analyticalPSDDaldropLong(force,sampleFreq,frequency,extensionDNA,beadRadius,kT,viscosity)
+function PSDmodel = analyticalPSDDaldropLong(force,sampleFreq,frequency,extensionDNA,L,beadRadius,kT,viscosity)
 %%% Calculates the theoretical Power Spectral Density for Brownian motion
 %%% in the long pendulum direction (Daldrop 2015)
 
@@ -13,9 +13,9 @@ function PSDmodel = analyticalPSDDaldropLong(force,sampleFreq,frequency,extensio
 
 %%% Output: PSDmodel in nm^2/Hz
 %%
-    Cpar = (1-9/16*(1+extensionDNA/beadRadius)^(-1)+1/8*(1+extensionDNA/beadRadius)^(-3)...
-        -45/256*(1+extensionDNA/beadRadius)^(-4)-1/16*(1+extensionDNA/beadRadius)^(-5))^(-1); %Daldrop eq(S10)
-    Crot = 1 + 5/16*(1+extensionDNA/beadRadius)^(-3); %Daldrop eq(S12)
+    Cpar = (1-9/16*(1+L/beadRadius)^(-1)+1/8*(1+L/beadRadius)^(-3)...
+        -45/256*(1+L/beadRadius)^(-4)-1/16*(1+L/beadRadius)^(-5))^(-1); %Daldrop eq(S10)
+    Crot = 1 + 5/16*(1+L/beadRadius)^(-3); %Daldrop eq(S12)
     alphaX = 6*pi*viscosity*beadRadius*Cpar; %Daldrop eq(11)
     alphaPhi = 8*pi*viscosity*beadRadius^3*Crot; %Daldrop eq(11)
 

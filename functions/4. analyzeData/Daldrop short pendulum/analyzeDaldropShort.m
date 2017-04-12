@@ -1,5 +1,5 @@
 function [DaldropFitShort, DaldropForceShort, DaldropRadiusShort] = ...
-    analyzeDaldropShort(sampleFreq,extensionDNA,short,beadRadius,kT,viscosity,nBlock,plotThings)
+    analyzeDaldropShort(sampleFreq,extensionDNA,L,short,beadRadius,kT,viscosity,nBlock,plotThings)
 %%% Analyzes the Power Spectral Density of a single trace in the short
 %%% pendulum direction using Daldrop's method.
 
@@ -18,7 +18,7 @@ function [DaldropFitShort, DaldropForceShort, DaldropRadiusShort] = ...
 %%
     %%% Get an estimate of the force and the corner frequency
     Fest = kT*extensionDNA/std(short-mean(short))^2; %pN
-    cornerFreq = calcFcorner(Fest,extensionDNA,beadRadius,viscosity); %Hz
+    cornerFreq = calcFcorner(Fest,L,extensionDNA,beadRadius,viscosity); %Hz
     fitgood = cornerFreq < sampleFreq/2;
 
     %%% Add a line to x to make the length 2^integer
@@ -36,24 +36,24 @@ function [DaldropFitShort, DaldropForceShort, DaldropRadiusShort] = ...
     %%% Weighted least squares fit to PSD
     %%% According to the model by Daldrop
     weight = (PSD * sqrt(nBlock));
-    analyticalFunctionInverse = @(force, radius)(1./analyticalPSDDaldropShort(force,sampleFreq,f,extensionDNA,radius,kT,viscosity));
+    analyticalFunctionInverse = @(force, radius)(1./analyticalPSDDaldropShort(force,sampleFreq,f,extensionDNA,L,radius,kT,viscosity));
     amplitudeBias = nBlock/(nBlock + 1);
     PSDInverse = 1./PSD;
 
     [par] = lsqnonlin(@(par) weight.*(PSDInverse - amplitudeBias*analyticalFunctionInverse(par(1),par(2))), [Fest,beadRadius]);
-    DaldropForceShort = par(1); DaldropRadiusShort = par(2); DaldropFitShort = [DaldropForceShort DaldropRadiusShort fitgood];
+    DaldropForceShort = par(1); DaldropRadiusShort = par(2); DaldropFitShort = fitgood;
 
-    PSDmodel = analyticalPSDDaldropShort(DaldropForceShort,sampleFreq,f,extensionDNA,DaldropRadiusShort,kT,viscosity);
-    PSDmodelInit = analyticalPSDDaldropShort(Fest,sampleFreq,f,extensionDNA,beadRadius,kT,viscosity);
+    PSDmodel = analyticalPSDDaldropShort(DaldropForceShort,sampleFreq,f,extensionDNA,L,DaldropRadiusShort,kT,viscosity);
+    PSDmodelInit = analyticalPSDDaldropShort(Fest,sampleFreq,f,extensionDNA,L,beadRadius,kT,viscosity);
 
     if plotThings;
-        figure(6);
+        figure(4);
         loglog(f,PSD,'r-');
         hold on
         loglog(f,PSDmodel,'b-');
         loglog(f,PSDmodelInit,'y-');
 
-        title('Fitting of Power Spectrum in short pendulum direction using Daldrops method');
+        title('Fitting of Power Spectrum in short pendulum direction');
         xlabel('frequency (Hz)');
         ylabel('Power Spectrum (nm^2/Hz)');
         legend(['Power spectrum, nBlock = ' num2str(nBlock)], 'Fitted analytical function','Initial guess for fit');

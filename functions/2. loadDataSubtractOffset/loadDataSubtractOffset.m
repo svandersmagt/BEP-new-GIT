@@ -12,27 +12,34 @@ function [bead, zmag] = loadDataSubtractOffset(configVariable)
 %%
     format compact;
     offsetZ = configVariable.zOffsetAlreadySubtracted;
+    skipColumn = configVariable.firstColumnIsTime;
 
     %%% Write here some descriptive text about your data
     %%% ---
     %%% Example of force extension data
     %%% 21 kbp DNA, M270 beads, 1 mm gap verticaly oriented magnets
     tracesFile = configVariable.tracesFile;
-    motorsFile = configVariable.magnetMotorFile;
+    if configVariable.motorDataInSameFile==0;
+        motorsFile = configVariable.magnetMotorFile;
+    end
     zOffsetsFile = configVariable.zOffsetOutputFile;
 
     %%% Read in data
     data = load(tracesFile);
-    zmag = load(motorsFile);
+    if configVariable.motorDataInSameFile==0;
+        zmag = load(motorsFile);
+    else
+        zmag = data(:,skipColumn + 4);
+    end
     clear bead
 
     %%% For data = (long pendulum, short pendulum, z)
     if configVariable.pendulumOrder == 1;
         for i=1;
             bead(i).time = 1:length(data(:,1));
-            bead(i).long = data(:,1)*1000; %nm
-            bead(i).short = data(:,2)*1000; 
-            bead(i).z = data(:,3)*1000;
+            bead(i).long = data(:,skipColumn + 1)*1000; %nm
+            bead(i).short = data(:,skipColumn + 2)*1000; 
+            bead(i).z = data(:,skipColumn + 3)*1000;
         end
     end
 
@@ -40,14 +47,14 @@ function [bead, zmag] = loadDataSubtractOffset(configVariable)
     if configVariable.pendulumOrder == 0;
         for i=1;
             bead(i).time = 1:length(data(:,1));
-            bead(i).long = data(:,2)*1000; %nm
-            bead(i).short = data(:,1)*1000; 
-            bead(i).z = data(:,3)*1000;
+            bead(i).long = data(:,skipColumn + 2)*1000; %nm
+            bead(i).short = data(:,skipColumn + 1)*1000; 
+            bead(i).z = data(:,skipColumn + 3)*1000;
         end
     end
 
     %%% Skip if offset is already subtracted
-    if (offsetZ == 0);
+    if (offsetZ == 0 && configVariable.zOffsetHighestPlateau == 0);
         %%% Read in the previously determined z-offsets from file
         zOffData = load(zOffsetsFile);
         zOffsets = zOffData(:,1)*1000; %nm
@@ -63,7 +70,9 @@ function [bead, zmag] = loadDataSubtractOffset(configVariable)
                 ') does not agree with the number of beads in the zoffset file ('...
                 num2str(length(zOffsets)) ')'])
         end
-    else
+    elseif (offsetZ == 1 && configVariable.zOffsetHighestPlateau == 0)
         display('Z-offsets were already subtracted')
+    elseif (configVariable.zOffsetHighestPlateau == 1)
+        display('Z-offsets will be subtracted by using highest plateau')
     end
 end

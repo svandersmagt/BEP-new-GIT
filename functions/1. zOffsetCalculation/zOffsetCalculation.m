@@ -22,8 +22,12 @@ function [] = zOffsetCalculation(configVariable)
     data = load(tracesFile);
 
     for i=1 %there is only one bead in this example
-        bead(i).time = 1:length(data(:,1));
-        bead(i).z = data(:,3);
+        if configVariable.firstColumnIsTime;
+            bead(i).time = 1:length(data(:,1));
+            bead(i).z = data(:,4);
+        else
+            bead(i).time = 1:length(data(:,1));
+            bead(i).z = data(:,3);
     end
 
     zOffsets = [];
@@ -45,15 +49,6 @@ function [] = zOffsetCalculation(configVariable)
             title(['Z-offset finding for bead # ' num2str(i)]);
             legend('z','Smoothed z','Lowest point');
         end
-    end
-
-    %%% Plot the offsets
-    if plotThings;
-        figure(2); clf; hold on; box on;
-        plot(1, zOffsets, 'bo', 'linewidth', 2, 'markersize', 5);
-        title('Z-offset per bead');
-        xlabel('Bead #'); ylabel('z-offset (um)');
-        legend('Offset');
     end
 
     %%% Save the data
