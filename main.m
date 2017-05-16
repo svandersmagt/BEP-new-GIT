@@ -30,4 +30,4 @@ end
 
 %%% Step four: analyze using different algorithms
 display('Analyzing bead data')
-[bead, forcesExponentialFit] = analyzeData(bead, nPlat, plat, zmags, configVariable);
+[bead, forcesExponentialFit] = analyzeData(bead, plat, zmags, configVariable);

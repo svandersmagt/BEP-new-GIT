@@ -17,9 +17,9 @@ function [frequency,PowerSpectrum,maxTime] = calcPSDBlock(X,sampleFreq,nBlock)
 
     fNyq = sampleFreq/2;
     deltaT = 1/sampleFreq;
-    time = [0 : deltaT : (lengthBlock-1)*deltaT]'; % same for every block
-    maxTime = max(time);
-    frequency = ([1 : lengthBlock] / maxTime)';
+    time = (0 : deltaT : (lengthBlock-1)*deltaT); % same for every block
+    maxTime = max(time,[],2);
+    frequency = ((1 : lengthBlock) / maxTime)';
     ind = find(frequency <= fNyq); % only to the Nyquist f
     frequency = frequency(ind); % same for every block
     PSD = zeros(round(lengthBlock/2 -1),1);

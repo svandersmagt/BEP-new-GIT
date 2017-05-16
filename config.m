@@ -10,7 +10,7 @@ configVariable.zOffsetOutputFile = '..\BEPmaarnietgit\FX_offsets.txt';
 
 
 %%% Data file containing x, y, z traces of beads:
-configVariable.tracesFile = '..\BEPmaarnietgit\WithoutReferenceCorrection\RdRp_4.txt';
+configVariable.tracesFile = '..\BEPmaarnietgit\WithoutReferenceCorrection\RdRp_3.txt';
 %%% Data file containing motor data for the magnet:
 configVariable.magnetMotorFile = '..\BEPmaarnietgit\DaldropMotors.txt';
 %%% Acquisition frequency:
@@ -35,11 +35,9 @@ configVariable.beadRadius = 1400; %bead radius in nm, as given by the manufactur
 %%% Options:
 %%% Plot things:
 configVariable.plotThings = true;
+configVariable.plotSpectrum = false;
 
-%%% Number of blocks for blocked power spectrum calculation:
-%%% Largest possible number of blocks depends on your trace length, more
-%%% blocks speeds up the fitting, and might improve accuracy.
-configVariable.nBlock = 5;
+configVariable.maxMagnetHeigth = 16;
 
 %%% Z-offsets are already saved to the file specified above:
 configVariable.zOffsetAlreadySaved = false;

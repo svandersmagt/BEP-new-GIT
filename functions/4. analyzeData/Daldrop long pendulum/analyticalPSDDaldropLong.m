@@ -2,11 +2,12 @@ function PSDmodel = analyticalPSDDaldropLong(force,sampleFreq,frequency,extensio
 %%% Calculates the theoretical Power Spectral Density for Brownian motion
 %%% in the long pendulum direction (Daldrop 2015)
 
-%%% Input: (force,sampleFreq,frequency,extensionDNA,beadRadius,kT,viscosity) 
+%%% Input: (force,sampleFreq,frequency,extensionDNA,L,beadRadius,kT,viscosity) 
 %%% - magnet force in pN
 %%% - sampling frequency in Hz
 %%% - frequencies for powerspectrum in Hz (vector)
 %%% - DNA extension in nm
+%%% - bead distance to surface in nm
 %%% - bead radius in nm
 %%% - kT in pN nm
 %%% - viscosity in pN s/nm^2

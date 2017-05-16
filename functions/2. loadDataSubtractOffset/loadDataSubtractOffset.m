@@ -35,22 +35,18 @@ function [bead, zmag] = loadDataSubtractOffset(configVariable)
 
     %%% For data = (long pendulum, short pendulum, z)
     if configVariable.pendulumOrder == 1;
-        for i=1;
-            bead(i).time = 1:length(data(:,1));
-            bead(i).long = data(:,skipColumn + 1)*1000; %nm
-            bead(i).short = data(:,skipColumn + 2)*1000; 
-            bead(i).z = data(:,skipColumn + 3)*1000;
-        end
+        bead.time = 1:length(data(:,1));
+        bead.long = data(:,skipColumn + 1)*1000; %nm
+        bead.short = data(:,skipColumn + 2)*1000; 
+        bead.z = data(:,skipColumn + 3)*1000;
     end
 
     %%% For data = (short pendulum, long pendulum, z)
     if configVariable.pendulumOrder == 0;
-        for i=1;
-            bead(i).time = 1:length(data(:,1));
-            bead(i).long = data(:,skipColumn + 2)*1000; %nm
-            bead(i).short = data(:,skipColumn + 1)*1000; 
-            bead(i).z = data(:,skipColumn + 3)*1000;
-        end
+        bead.time = 1:length(data(:,1));
+        bead.long = data(:,skipColumn + 2)*1000; %nm
+        bead.short = data(:,skipColumn + 1)*1000; 
+        bead.z = data(:,skipColumn + 3)*1000;
     end
 
     %%% Skip if offset is already subtracted
@@ -61,9 +57,7 @@ function [bead, zmag] = loadDataSubtractOffset(configVariable)
 
         %%% Subtract previously determined z-offsets
         if length(zOffsets) == length(bead);
-            for i=1;
-                bead(i).z = bead(i).z - zOffsets(i);
-            end
+            bead.z = bead.z - zOffsets;
             display('Subtracted pre-determined z-offsets.')
         else
             display(['Number of beads in the big data file (' num2str(length(bead)) ...

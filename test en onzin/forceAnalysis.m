@@ -133,9 +133,9 @@ if 1
     %%% ---
     %%% Example data set on FX measurements; M270 beads, 21 kbp DNA
     if DATA ==1
-        traces_file = 'offset.txt';
-        motors_file = 'offset_motors.txt';
-        output_name = 'FX_offsets.txt';
+        traces_file = '..\BEPmaarnietgit\offset.txt';
+        motors_file = '..\BEPmaarnietgit\offset_motors.txt';
+        output_name = '..\BEPmaarnietgit\FX_offsets3.txt';
         Nref = 1;
     end
     
@@ -254,9 +254,9 @@ if 1
     %%% Example of force extension data
     %%% 21 kbp DNA, M270 beads, 1 mm gap verticaly oriented magnets
     if DATA ==1
-        traces_file = 'bead.txt';
-        motors_file = 'bead_motors.txt';
-        zoffsets_file = 'FX_offsets.txt';
+        traces_file = '..\BEPmaarnietgit\bead.txt';
+        motors_file = '..\BEPmaarnietgit\bead_motors.txt';
+        zoffsets_file = '..\BEPmaarnietgit\FX_offsets3.txt';
         Nref = 1;
         F_IND = 2; %%% whether to use x or y (1=x, 2=y)
         freq = 60; %%% Acquisition frequency in Hz

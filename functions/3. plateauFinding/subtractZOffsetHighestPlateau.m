@@ -16,26 +16,21 @@ function bead = subtractZOffsetHighestPlateau(zmags,plat,bead,configVariable)
     [~,highest] = max(zmags);
     highestPlateauZ = bead(1).z(plat(highest).first:plat(highest).last);
     highestPlateauTime = bead(1).time(plat(highest).first:plat(highest).last);
-    zOffsets = [];
     nSmooth=100;
 
-    for i=1 %there is only one bead in this example
+    %%% Smooth and find minimum
+    smoothZ = smooth(highestPlateauZ, nSmooth, 'moving');
+    [minZ, ind] = min(smoothZ);
+    bead.z = bead.z - minZ;
+    display('Z-offset subtracted using highest plateau');
 
-        %%% Smooth and find minimum
-        smoothZ = smooth(highestPlateauZ, nSmooth, 'moving');
-        [minZ, ind] = min(smoothZ);
-        zOffsets = [zOffsets minZ];
-        bead(i).z = bead(i).z - minZ;
-        display('Z-offset subtracted using highest plateau');
-        
-        if plotThings;
-            figure(1); clf; hold on; box on;
-            plot(highestPlateauTime, highestPlateauZ, 'k-', 'linewidth', 1);
-            plot(highestPlateauTime, smoothZ, 'r-', 'linewidth', 2);
-            plot(highestPlateauTime(ind), smoothZ(ind), 'bx', 'linewidth', 2, 'markersize', 20);
-            xlabel('Time (s)'); ylabel('z (nm)');
-            title(['Z-offset finding for bead # ' num2str(i)]);
-            legend('z','Smoothed z','Lowest point');
-        end
+    if plotThings;
+        figure(1); clf; hold on; box on;
+        plot(highestPlateauTime, highestPlateauZ, 'k-', 'linewidth', 1);
+        plot(highestPlateauTime, smoothZ, 'r-', 'linewidth', 2);
+        plot(highestPlateauTime(ind), smoothZ(ind), 'bx', 'linewidth', 2, 'markersize', 20);
+        xlabel('Time (s)'); ylabel('z (nm)');
+        title(['Z-offset finding for bead # ' num2str(i)]);
+        legend('z','Smoothed z','Lowest point');
     end
 end

@@ -49,7 +49,6 @@ function [plat, zmags, nPlat] = plateauFinding(zmag, configVariable)
     %%% Check whether we are ending in a plateau
     if (abs(diffZmag(end)) < threshold && abs(diffZmag(end-1)) < threshold)
         tPlat(nLast).last = length(diffZmag);
-        nLast = nLast +1;
     end
 
     %%% Plateaus that are too short are thrown away

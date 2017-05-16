@@ -26,7 +26,7 @@ end
 %%% direction, because x gives wrong values because it does not take
 %%% rotation into account
 Fest = kT*mean(bead.z)/std(bead.y-mean(bead.y))^2; %pN
-fc = calcFcorner(Fest,mean(bead.z),R,eta); %Hz
+fc = calcFcorner(Fest,mean(bead.z),mean(bead.z),R,eta); %Hz force,L,extensionDNA,beadRadius,viscosity
 fitgood = fc < fs/2;
 bead.x(end+1) = bead.x(1);
 [f1, PSD1, ~] = calcPSDBlock(bead.x,fs,1);
