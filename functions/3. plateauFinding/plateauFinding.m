@@ -88,7 +88,7 @@ function [plat, zmags, nPlat] = plateauFinding(zmag, configVariable)
             plot(faketime(plat(j).first) , zmagSmooth(plat(j).first), 'ko', 'markersize', 5)
             plot(faketime(plat(j).last) , zmagSmooth(plat(j).last), 'mo', 'markersize', 5)
         end
-        xlabel('Time (s)'); ylabel('Magnet height (mum)')
+        xlabel('Time (s)'); ylabel('Magnet height (mm)')
         title(['Result of plateau finding; Found ' num2str(nPlat) ' plateaus.' ])
         legend( 'Motor data','Plateaus','Plateau start','Plateau end')
     end

@@ -59,7 +59,6 @@ function [DaldropFitLong, DaldropForceLong, DaldropRadiusLong, cornerFreq, signa
         hold on
         loglog(f,PSDmodel,'b-');
         loglog(f,PSDmodelInit,'y-');
-        loglog(f(1),signal,'kx');
 
         title('Fitting of Power Spectrum in long pendulum direction');
         xlabel('frequency (Hz)');
@@ -67,5 +66,4 @@ function [DaldropFitLong, DaldropForceLong, DaldropRadiusLong, cornerFreq, signa
         legend(['Power spectrum, nBlock = ' num2str(nBlock)], 'Fitted analytical function','Initial guess for fit');
         hold off
     end
-
 end

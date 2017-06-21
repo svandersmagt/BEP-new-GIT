@@ -93,21 +93,21 @@ function [bead, forcesExponentialFit] = analyzeData(bead, plat, zmags, configVar
         hold off
 
         figure(6)
-        semilogx(bead.forceLong(ind),bead.radiusLong(ind),'bo')
+        p1 = semilogx(bead.forceLong(ind),bead.radiusLong(ind),'bo');
         hold on
         errorbar(bead.forceLong(ind),bead.radiusLong(ind),bead.errorLongRadius(ind),'bo');
-        semilogx([0.1, bead.forceLong(1)+1],[mean(bead.radiusLong(ind)), mean(bead.radiusLong(ind))],'b--')
-        semilogx(bead.forceShort(ind),bead.radiusShort(ind),'ro')
+        p2 = semilogx([0.1, bead.forceLong(1)+1],[sum(bead.radiusLong(ind).*bead.errorLongRadius(ind).^(-1))/sum(bead.errorLongRadius(ind).^(-1)), sum(bead.radiusLong(ind).*bead.errorLongRadius(ind).^(-1))/sum(bead.errorLongRadius(ind).^(-1))],'b--');
+        p3 = semilogx(bead.forceShort(ind),bead.radiusShort(ind),'ro');
         errorbar(bead.forceShort(ind),bead.radiusShort(ind),bead.errorShortRadius(ind),'ro');
-        semilogx([0.1, bead.forceLong(1)+1],[mean(bead.radiusShort(ind)), mean(bead.radiusShort(ind))],'r--')
-        semilogx([0.1, bead.forceLong(1)+1],[beadRadius, beadRadius],'k--')
+        p4 = semilogx([0.1, bead.forceLong(1)+1],[sum(bead.radiusShort(ind).*bead.errorShortRadius(ind).^(-1))/sum(bead.errorShortRadius(ind).^(-1)), sum(bead.radiusShort(ind).*bead.errorShortRadius(ind).^(-1))/sum(bead.errorShortRadius(ind).^(-1))],'r--');
+        p5 = semilogx([0.1, bead.forceLong(1)+1],[beadRadius, beadRadius],'k--');
         axis([0.1, bead.forceLong(1)+1, mean(bead.radiusLong(ind)) - 300, mean(bead.radiusLong(ind)) + 300])
         title('Radius, fitted for different directions')
         xlabel('force (pN)')
         ylabel('radius (nm)')
-        legend('Fitted radius, long pendulum direction','Average radius, long pendulum direction',...
-            'Fitted radii, short pendulum direction', 'Average radius, short pendulum direction',...
-            'Radius given by manufacturer')
+        legend([p1 p2 p3 p4 p5],{'Fitted radii, long pendulum direction','Weighted average radius, long pendulum direction',...
+            'Fitted radii, short pendulum direction', 'Weighted average radius, short pendulum direction',...
+            'Radius given by manufacturer'})
         hold off          
             
         display('Fit force vs. magnet height to double exponential');

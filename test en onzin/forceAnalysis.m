@@ -95,7 +95,7 @@ function forceAnalysis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if 1
+if 0
     
     %%% This is the first section in a series of routines to analyze
     %%% force-extension data taken with the new multi bead code for MT
@@ -254,8 +254,8 @@ if 1
     %%% Example of force extension data
     %%% 21 kbp DNA, M270 beads, 1 mm gap verticaly oriented magnets
     if DATA ==1
-        traces_file = '..\BEPmaarnietgit\bead.txt';
-        motors_file = '..\BEPmaarnietgit\bead_motors.txt';
+        traces_file = '..\BEPmaarnietgit\fx_11_19Nov2013.txt';
+        motors_file = '..\BEPmaarnietgit\fx_11_19Nov2013_motors.txt';
         zoffsets_file = '..\BEPmaarnietgit\FX_offsets3.txt';
         Nref = 1;
         F_IND = 2; %%% whether to use x or y (1=x, 2=y)
@@ -274,6 +274,7 @@ if 1
     %%%--- Read in data ---
     data = load(traces_file);
     zmag = load(motors_file);
+    zmag = zmag(:,3);
     
     Nbeads = 1;
     

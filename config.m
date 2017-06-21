@@ -10,9 +10,9 @@ configVariable.zOffsetOutputFile = '..\BEPmaarnietgit\FX_offsets.txt';
 
 
 %%% Data file containing x, y, z traces of beads:
-configVariable.tracesFile = '..\BEPmaarnietgit\WithoutReferenceCorrection\RdRp_3.txt';
+configVariable.tracesFile = '..\BEPmaarnietgit\WithoutReferenceCorrection\RdRp_4.txt';
 %%% Data file containing motor data for the magnet:
-configVariable.magnetMotorFile = '..\BEPmaarnietgit\DaldropMotors.txt';
+configVariable.magnetMotorFile = '..\BEPmaarnietgit\bead_motors.txt';
 %%% Acquisition frequency:
 configVariable.sampleFreq = 114; %acquisition frequency in Hz
 
@@ -37,7 +37,7 @@ configVariable.beadRadius = 1400; %bead radius in nm, as given by the manufactur
 configVariable.plotThings = true;
 configVariable.plotSpectrum = false;
 
-configVariable.maxMagnetHeigth = 16;
+configVariable.maxMagnetHeigth = 20;
 
 %%% Z-offsets are already saved to the file specified above:
 configVariable.zOffsetAlreadySaved = false;

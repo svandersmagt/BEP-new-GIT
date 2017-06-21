@@ -1,0 +1,10 @@
+figure(21)
+
+% plot(zmags, bead.L./bead.extensionDNA,'k.')
+% hold on
+% axis([5 15 0 1.1])
+
+title('')
+xlabel('Magnet height (mm)')
+ylabel('z * (x^{2}+y^{2}+z^{2})^{-1/2}')
+legend('Different color for different beads')

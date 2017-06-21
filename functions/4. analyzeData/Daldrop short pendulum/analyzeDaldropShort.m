@@ -57,7 +57,6 @@ function [DaldropFitShort, DaldropForceShort, DaldropRadiusShort, cornerFreq, si
         hold on
         loglog(f,PSDmodel,'b-');
         loglog(f,PSDmodelInit,'y-');
-        loglog(f(1),signal,'kx');
 
         title('Fitting of Power Spectrum in short pendulum direction');
         xlabel('frequency (Hz)');
